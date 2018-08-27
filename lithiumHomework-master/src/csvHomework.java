@@ -1,8 +1,9 @@
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class csvHomework {
 
-   public static <string> void main(String[] args) {
+  public static <string> void main(String[] args) {
 
     String myCSV = new String("Name,Age,City,State,Zip\n" +
             "John,23,Austin,TX,78730\n" +
@@ -41,30 +42,43 @@ public class csvHomework {
 //        System.out.println(char1Count + " " + char2Count);  // quick test - prints counts of the two characters
 
     String[] separatedArray = myCSV.split("\n"); // separates myCSV at each instance of "\n"
-    String[] objectHeader = separatedArray[0].split(","); // captures the header row, need to create the below arrays with for loop
 
     ArrayList<String> firstNames = new ArrayList<>();
     ArrayList<String> age = new ArrayList<>();
+    ArrayList<Integer> ageInt = new ArrayList<>();
     ArrayList<String> city = new ArrayList<>();
     ArrayList<String> state = new ArrayList<>();
     ArrayList<String> zipCode = new ArrayList<>();
+    ArrayList<Integer> zipCodeInt = new ArrayList<>();
 
-    for (int i = 1; i < char1Count + 1; i++) {
-        String [] superSeparateArray = separatedArray[i].split(","); //splits each array by row
-        firstNames.add (superSeparateArray[0]);
-        age.add (superSeparateArray[1]); // needs conversion to int array
-        city.add (superSeparateArray[2]);
-        state.add (superSeparateArray[3]);
-        zipCode.add (superSeparateArray[4]); // needs conversion to int array
+        for (int i = 1; i < char1Count + 1; i++) { //1 because I don't need the info in the header row
+            String [] rowArray = separatedArray[i].split(","); //splits each array by row
+            firstNames.add (rowArray[0]);
+            age.add (rowArray[1]);
+            city.add (rowArray[2]);
+            state.add (rowArray[3]);
+            zipCode.add (rowArray[4]);
+        }
 
-                }
+        for (int i = 0; i < char1Count; i++) {
+            ageInt.add (Integer.parseInt(age.get(i)));
+            zipCodeInt.add (Integer.parseInt(zipCode.get(i)));
+        }
 
+      int min;
+      int max;
+      int minIndex;
+      int maxIndex;
+      min = Collections.min(ageInt);
+      max = Collections.max(ageInt);
+      minIndex = ageInt.indexOf(min);
+      maxIndex = ageInt.indexOf(max);
 
-       System.out.println(firstNames); //create method to determine most common
-        System.out.println(age);       //same but for name of oldest and youngest person
-                                       // use indexOf to match up ages and names?
-             }
-         }
+      System.out.println("The oldest person, " + firstNames.get(maxIndex) + ", is " + max + " years old.");
+      System.out.println("The youngest person, " + firstNames.get(minIndex) + ", is " + min + " years old.");
+
+  }
+}
 
 //try to do all of this as single method that creates each person as their own object, regardless of input
 

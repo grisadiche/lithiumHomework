@@ -14,7 +14,7 @@ public class CSVobjects {
             zipCode = 78748;
         }
 
-        //Constructor accepts and initializes the car with data in the main method (default)
+        //Constructor accepts and initializes the object with data in the main method (default)
         public CSVobjects(String n, int a, String c, String s, int z){
             name = n;
             age = a;
@@ -48,8 +48,6 @@ public class CSVobjects {
         }
 
     public static void main(String[] args) {
-        System.out.println("suck it");
-
         CSVobjects Andrew = new CSVobjects();
         Andrew.setName("Andrew");
         Andrew.getName();
