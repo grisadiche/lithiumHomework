@@ -37,17 +37,17 @@ public class csvHomework {
 
     public ArrayList<ArrayList<String>> parseString (String string) {
         ArrayList<ArrayList<String>> categories = new ArrayList<ArrayList<String>>();
-        String [] rowArray = string.split("\n");
-        String [] headerArray = rowArray[0].split(",");
+        String [] lineArray = string.split("\n");
+        String [] headerArray = lineArray[0].split(",");
         for (int i = 0; i < headerArray.length; i++){
             ArrayList<String> category = new ArrayList<String>();
-            for (int j = 0; j < 1; j++) {
-                category.add(headerArray[i]);
-            }
+            category.add(headerArray[i]);
             categories.add(category);
-
-        }
-
+       //     for (int j = 0; j < lineArray.length; j++) {
+       //         String[] rowArray = lineArray[j].split(",");
+       //         category.add(rowArray[j]);
+       //         }
+            }
         return categories;
     }
 
@@ -88,12 +88,12 @@ public class csvHomework {
             "Emma,31,Austin,TX,78746\n" +
             "Liz,31,Austin,TX,78746");
 
-//    System.out.println(csvAnalyzer.parseString(myCSV)); //tests the arraylist creator
+    System.out.println(csvAnalyzer.parseString(myCSV)); //tests the arraylist creator
 
     int char1Count = csvAnalyzer.getChar('\n', myCSV); //uses method to count characters
     int char2Count = csvAnalyzer.getChar(',', myCSV);
 
-//        System.out.println(char1Count + " " + char2Count);  // quick test - prints counts of the two characters
+//    System.out.println(char1Count + " " + char2Count);  // quick test - prints counts of the two characters
 
     String[] separatedArray = myCSV.split("\n"); // separates myCSV at each instance of "\n"
 
@@ -105,6 +105,7 @@ public class csvHomework {
     ArrayList<String> zipCode = new ArrayList<>();
     ArrayList<Integer> zipCodeInt = new ArrayList<>();
 
+    //fill out the above arrays
         for (int i = 1; i < char1Count + 1; i++) { //1 because I don't need the info in the header row
             String [] rowArray = separatedArray[i].split(","); //splits each array by row
             firstNames.add (rowArray[0]);
