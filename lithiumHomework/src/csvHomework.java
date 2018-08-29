@@ -1,5 +1,4 @@
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.*;
 
 public class csvHomework {
     csvHomework(){}
@@ -46,12 +45,25 @@ public class csvHomework {
                 category.add(headerArray[i]);
             }
             categories.add(category);
+
         }
 
         return categories;
     }
 
-  public static <string> void main(String[] args) {
+    //public HashMap<String, Integer> freqCalc (ArrayList<String> array) {
+    //    for(int i = 0; i < array.size(); i++) {
+    //        String keyWord = array.get(i);
+    //        int counter = 1;
+
+          //  boolean stringExists = false;
+          //  if(stringExists) {
+          //      counter += 1;
+          //  }
+
+    //}
+
+  public static void main(String[] args) {
 
       csvHomework csvAnalyzer = new csvHomework();
 
@@ -76,9 +88,9 @@ public class csvHomework {
             "Emma,31,Austin,TX,78746\n" +
             "Liz,31,Austin,TX,78746");
 
-    System.out.println(csvAnalyzer.parseString(myCSV)); //tests the arraylist creator
+//    System.out.println(csvAnalyzer.parseString(myCSV)); //tests the arraylist creator
 
-    int char1Count = csvAnalyzer.getChar('\n', myCSV); //use method to count characters
+    int char1Count = csvAnalyzer.getChar('\n', myCSV); //uses method to count characters
     int char2Count = csvAnalyzer.getChar(',', myCSV);
 
 //        System.out.println(char1Count + " " + char2Count);  // quick test - prints counts of the two characters
@@ -112,7 +124,29 @@ public class csvHomework {
         System.out.println("The oldest person is " + firstNames.get(ageInt.indexOf(csvAnalyzer.getMax(ageInt))) + ", at " + csvAnalyzer.getMax(ageInt) + " years old.");
         System.out.println("The youngest person is " + firstNames.get(ageInt.indexOf(csvAnalyzer.getMin(ageInt))) + ", at " + csvAnalyzer.getMin(ageInt) + " years old.");
 
-        /*
+
+        // Most Common Name
+
+        HashMap<String, Integer> freqTest = new HashMap<String, Integer>();
+        HashMap<Integer, String> testFreq = new HashMap<Integer, String>();
+
+      for(int i = 0; i < char1Count; i++) {
+                String keyWord = firstNames.get(i);
+                int counter = 1;
+                if (freqTest.containsKey(firstNames.get(i))) {
+                    counter++;
+                }
+                freqTest.put(keyWord, counter);
+                testFreq.put(counter, keyWord);
+            }
+
+        //System.out.println(freqTest); checks the hashmap
+        //System.out.println(testFreq); not reliable at all, but works for a unique max
+        System.out.println(testFreq.get(Collections.max(freqTest.values())) + " is the most common name at " + Collections.max(freqTest.values()) + " times.");
+
+
+
+        /* First Round of idea-ing
 
         // counts the number of characters of certain types, to determine # of rows and columns
          char someChar1 = '\n';
@@ -143,6 +177,4 @@ public class csvHomework {
 */
   }
 }
-
-//try to do all of this as single method that creates each person as their own object, regardless of input
 
