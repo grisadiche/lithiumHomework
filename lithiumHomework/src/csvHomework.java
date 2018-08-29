@@ -88,7 +88,7 @@ public class csvHomework {
             "Emma,31,Austin,TX,78746\n" +
             "Liz,31,Austin,TX,78746");
 
-    System.out.println(csvAnalyzer.parseString(myCSV)); //tests the arraylist creator
+//    System.out.println(csvAnalyzer.parseString(myCSV)); //tests the arraylist creator
 
     int char1Count = csvAnalyzer.getChar('\n', myCSV); //uses method to count characters
     int char2Count = csvAnalyzer.getChar(',', myCSV);
