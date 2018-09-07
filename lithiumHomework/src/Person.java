@@ -1,12 +1,13 @@
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class Person {
             // create these categories in for loop?
         private String name;
-        private int age; // create string and convert to int (use if statement to do automatically)
+        private int age;
         private String city;
         private String state;
-        private int zipCode; //same as age
+        private int zipCode;
         private String industry;
         //private boolean searching;                     //add in boolean
 
@@ -22,22 +23,13 @@ public class Person {
 
 
     //getters
-    public String getName(){return name;}
+    public String getName(){return this.name;}
     public int getAge(){return age;}
     public String getCity(){return city;}
     public String getState(){return state;}
     public int getZipCode(){return zipCode;}
     public String getIndustry(){return industry;}
     //public String getSearching(){return searching;}
-
-    //setters
-    public void setName(String n){name = n;}
-    public void setAge(int a){age = a;}
-    public void setCity(String c){city = c;}
-    public void setState(String s){state = s;}
-    public void setZipCode(int z){zipCode = z;}
-    public void setIndustry(String i){industry = i;}
-    //public void setSearching(String q){searching = q;}
 
 
     public static void main(String[] args) {
@@ -66,30 +58,30 @@ public class Person {
                 "Rebecca,35,Houston,TX,77473,Finance, ");
 
         String[] separateArray = secondCSV.split("\n");
-        ArrayList<Object> objectArray = new ArrayList<>();
+        ArrayList<Person> objectArray = new ArrayList<>();
 
 /*
         ArrayList<String> names = new ArrayList<>();
-        ArrayList<Integer> age = new ArrayList<>();
-        ArrayList<String> city = new ArrayList<>();
-        ArrayList<String> state = new ArrayList<>();
-        ArrayList<Integer> zip = new ArrayList<>();
-        ArrayList<String> industry = new ArrayList<>();
+        ArrayList<Integer> ages = new ArrayList<>();
+        ArrayList<String> cities = new ArrayList<>();
+        ArrayList<String> states = new ArrayList<>();
+        ArrayList<Integer> zips = new ArrayList<>();
+        ArrayList<String> industries = new ArrayList<>();
         //ArrayList<String> searching = new ArrayList<>();
 
 
         for(int i = 1; i < separateArray.length - 1; i++){
             String[] rowArrays = separateArray[i].split(",");
             names.add(rowArrays[0]);
-            age.add(Integer.parseInt(rowArrays[1]));
-            city.add(rowArrays[2]);
-            state.add(rowArrays[3]);
-            zip.add(Integer.parseInt(rowArrays[4]));
-            industry.add(rowArrays[5]);
+            ages.add(Integer.parseInt(rowArrays[1]));
+            cities.add(rowArrays[2]);
+            states.add(rowArrays[3]);
+            zips.add(Integer.parseInt(rowArrays[4]));
+            industries.add(rowArrays[5]);
             //searching.add(rowArrays[6]);
         }
 */
-        for(int i = 1; i < separateArray.length - 1; i++){
+        for(int i = 1; i < separateArray.length - 1; i++) {
             String[] rowArrays = separateArray[i].split(",");
             objectArray.add(new Person(
                     rowArrays[0],
@@ -98,13 +90,21 @@ public class Person {
                     rowArrays[3],
                     Integer.parseInt(rowArrays[4]),
                     rowArrays[5]));
-            }
+        }
 
 
-        System.out.println(objectArray.get(0));
-        //Person Andrew = new Person();
-        //Andrew.setName("Andrew");
-        System.out.println("update test 10:16");
+       ArrayList<Integer> ageArray = new ArrayList<>();
+        for(int i = 1; i < separateArray.length - 1; i++){
+            ageArray.add(objectArray.get(i-1).getAge());
+        }
+       int ageMax = Collections.max(ageArray);
+       int ageMin = Collections.min(ageArray);
+
+System.out.println(ageMax + ageMin);
+System.out.println(separateArray.length);
+System.out.println(objectArray.get(1).getState()); //use a for loop to tally total numbers of each instance
+
+
+        }
     }
-}
 
