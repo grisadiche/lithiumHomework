@@ -67,7 +67,7 @@ public class csvHomework {
 
       csvHomework csvAnalyzer = new csvHomework();
 
-    String myCSV = new String("Name,Age,City,State,Zip\n" +
+    String myCSV = ("Name,Age,City,State,Zip\n" +
             "John,23,Austin,TX,78730\n" +
             "Karen,22,Austin,TX,78730\n" +
             "Bob,35,San Francsico,CA,94501\n" +
@@ -90,40 +90,29 @@ public class csvHomework {
 
 //    System.out.println(csvAnalyzer.parseString(myCSV)); //tests the arraylist creator
 
-    int char1Count = csvAnalyzer.getChar('\n', myCSV); //uses method to count characters
-    int char2Count = csvAnalyzer.getChar(',', myCSV);
-
-//    System.out.println(char1Count + " " + char2Count);  // quick test - prints counts of the two characters
-
     String[] separatedArray = myCSV.split("\n"); // separates myCSV at each instance of "\n"
 
     ArrayList<String> firstNames = new ArrayList<>();
-    ArrayList<String> age = new ArrayList<>();
     ArrayList<Integer> ageInt = new ArrayList<>();
     ArrayList<String> city = new ArrayList<>();
     ArrayList<String> state = new ArrayList<>();
-    ArrayList<String> zipCode = new ArrayList<>();
     ArrayList<Integer> zipCodeInt = new ArrayList<>();
 
     //fill out the above arrays
-        for (int i = 1; i < char1Count + 1; i++) { //1 because I don't need the info in the header row
+        for (int i = 1; i < separatedArray.length; i++) { //1 because I don't need the info in the header row
             String [] rowArray = separatedArray[i].split(","); //splits each array by row
             firstNames.add (rowArray[0]);
-            age.add (rowArray[1]);
+            ageInt.add (Integer.parseInt(rowArray[1]));
             city.add (rowArray[2]);
             state.add (rowArray[3]);
-            zipCode.add (rowArray[4]);
+            zipCodeInt.add (Integer.parseInt(rowArray[4]));
         }
 
-        for (int i = 0; i < char1Count; i++) {
-            ageInt.add (Integer.parseInt(age.get(i)));
-            zipCodeInt.add (Integer.parseInt(zipCode.get(i)));
-        }
+        int arrayMax = csvAnalyzer.getMax(ageInt);
+        int arrayMin = csvAnalyzer.getMin(ageInt);
 
-
-
-        System.out.println("The oldest person is " + firstNames.get(ageInt.indexOf(csvAnalyzer.getMax(ageInt))) + ", at " + csvAnalyzer.getMax(ageInt) + " years old.");
-        System.out.println("The youngest person is " + firstNames.get(ageInt.indexOf(csvAnalyzer.getMin(ageInt))) + ", at " + csvAnalyzer.getMin(ageInt) + " years old.");
+        System.out.println("The oldest person is " + firstNames.get(ageInt.indexOf(arrayMax)) + ", at " + arrayMax + " years old.");
+        System.out.println("The youngest person is " + firstNames.get(ageInt.indexOf(arrayMin)) + ", at " + arrayMin + " years old.");
 
 
         // Most Common Name
@@ -131,7 +120,7 @@ public class csvHomework {
         HashMap<String, Integer> freqTest = new HashMap<String, Integer>();
         HashMap<Integer, String> testFreq = new HashMap<Integer, String>();
 
-      for(int i = 0; i < char1Count; i++) {
+      for(int i = 0; i < separatedArray.length - 1; i++) {
                 String keyWord = firstNames.get(i);
                 int counter = 1;
                 if (freqTest.containsKey(firstNames.get(i))) {
