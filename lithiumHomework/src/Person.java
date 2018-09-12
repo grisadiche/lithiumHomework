@@ -53,10 +53,10 @@ public class Person {
                 "Bob,35,San Francsico,CA,94501,Finance,Yes\n" +
                 "Thomas,43,Austin,TX,78730,Software,No\n" +
                 "Jennifer,34,San Francsico,CA,94501,Finance,No\n" +
-                "Lucy,55,Austin,TX,78730,Software, \n" +
+                "Lucy,55,Austin,TX,78730,Software,No\n" +
                 "Rob,23,San Francsico,CA,94501,,No\n" +
                 "Margaret,27,Austin,TX,78730,Finance,No\n" +
-                "John,66,Dallas,TX,75001,,No \n" +
+                "John,66,Dallas,TX,75001,,No\n" +
                 "Mary,27,San Francsico,CA,94501,Accounting,No\n" +
                 "Mary,29,San Francsico,CA,94501,Software,No\n" +
                 "George,36,Austin,TX,78746,Software,No\n" +
@@ -76,6 +76,10 @@ public class Person {
 
         for(int i = 1; i < separateArray.length; i++) {
             String[] rowArrays = separateArray[i].split(",");//splits each row at comma (adjust for nulls?)
+
+            System.out.println(rowArrays.length);
+
+
             objectArray.add(new Person(                                    //creates new person in my Person arraylist
                     rowArrays[0],                                          //names
                     Integer.parseInt(rowArrays[1]),                        //ages
