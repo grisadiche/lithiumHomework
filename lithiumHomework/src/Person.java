@@ -15,7 +15,7 @@ public class Person {
         private boolean searching;                     //add in boolean
 
 
-    public Person(String name, int age, String city, String state, int zipCode, String industry, Boolean searching){
+    /*public Person(String name, int age, String city, String state, int zipCode, String industry, Boolean searching){
         this.name = name;
         this.age = age;
         this.city = city;
@@ -24,13 +24,74 @@ public class Person {
         this.industry = industry;
         this.searching = searching;
     }
-
-    public static Boolean toBooleanObject(String str) {
-        if ("yes".equalsIgnoreCase(str)) {
-            return true;
+*/
+    //setters
+    public void setName(String name){
+        if(name.length() == 0) {
+            this.name = "unknown";
+        } else if (name == null) {
+            this.name = "unknown";
+        } else {
+            this.name = name;
         }
-        return false;
     }
+    public void setAge(String age){
+        if(age.length() == 0) {
+            this.age = 0;
+        } else if (age == null) {
+            this.age = 0;
+        } else {
+            this.age = Integer.parseInt(age);
+        }
+    }
+    public void setCity(String city){
+        if(city.length() == 0) {
+            this.city = "unknown";
+        } else if (city == null) {
+            this.city = "unknown";
+        } else {
+            this.city = city;
+        }
+    }
+    public void setState(String state){
+        if(state.length() == 0) {
+            this.state = "unknown";
+        } else if (state == null) {
+            this.state = "unknown";
+        } else {
+            this.state = state;
+        }
+    }
+    public void setZipCode(String zipCode){
+        if(zipCode.length() == 0) {
+            this.zipCode = 0;
+        } else if (zipCode == null) {
+            this.zipCode = 0;
+        } else {
+            this.zipCode = Integer.parseInt(zipCode);
+        }
+    }
+    public void setIndustry(String industry){
+        if(industry.length() == 0) {
+            this.industry = "unknown";
+        } else if (industry == null) {
+            this.industry = "unknown";
+        } else {
+            this.industry = industry;
+        }
+    }
+    public void setSearching(String searching){
+        if(searching.length() == 0) {
+            this.searching = false;
+        } else if (searching == null) {
+            this.searching = false;
+        } else if (searching == "Yes") {
+            this.searching = true;
+        } else {
+            this.searching = false;
+        }
+    }
+
 
     //getters
     public String getName(){return this.name;}
@@ -42,57 +103,59 @@ public class Person {
     public Boolean getSearching(){return searching;}
 
     public String toString(){                                           //replaces the hashcode object output with my own. not scalable to new fields
-        return "Person[" + name + "," + age + "," + city + "," + state + "," + zipCode + "," + industry + "," + searching + "]";
+        return "[" + name + "," + age + "," + city + "," + state + "," + zipCode + "," + industry + "," + searching + "]";
     }
 
 
     public static void main(String[] args) {
         String secondCSV = ("Name,Age,City,State,Zip,Industry,Job Searching?\n" +
                 "John,23,Austin,TX,78730,Software,Yes\n" +
-                "Karen,22,Austin,TX,78730,,No\n" +
+                "Karen,22,Austin,TX,78730,Finance,No\n" +
                 "Bob,35,San Francsico,CA,94501,Finance,Yes\n" +
-                "Thomas,43,Austin,TX,78730,Software,No\n" +
+                "Thomas,43,Austin,TX,78730,Software,\n" +
                 "Jennifer,34,San Francsico,CA,94501,Finance,No\n" +
                 "Lucy,55,Austin,TX,78730,Software,No\n" +
                 "Rob,23,San Francsico,CA,94501,,No\n" +
-                "Margaret,27,Austin,TX,78730,Finance,No\n" +
-                "John,66,Dallas,TX,75001,,No\n" +
-                "Mary,27,San Francsico,CA,94501,Accounting,No\n" +
+                "Margaret,27,Austin,TX,78730,Finance,\n" +
+                "John,66,Dallas,TX,75001,,\n" +
+                "Mary,27,San Francsico,CA,94501,Accounting,\n" +
                 "Mary,29,San Francsico,CA,94501,Software,No\n" +
-                "George,36,Austin,TX,78746,Software,No\n" +
+                "George,36,Austin,TX,78746,Software,\n" +
                 "Michael,37,Austin,TX,78746,HR,Yes\n" +
                 "Larry,34,Austin,TX,78746,Finance,Yes\n" +
-                "Brian,31,Austin,TX,78746,,No\n" +
-                "Elon,31,Austin,TX,78746,,No\n" +
+                "Brian,31,Austin,TX,78746,,\n" +
+                "Elon,31,Austin,TX,78746,,\n" +
                 "Robert,31,Austin,TX,78746,Finance,Yes\n" +
-                "Bill,31,Austin,TX,78746,Finance,No\n" +
-                "Emma,31,Austin,TX,78746,Finance,No\n" +
+                "Bill,31,Austin,TX,78746,Finance,\n" +
+                "Emma,31,Austin,TX,78746,Finance,Yes\n" +
                 "Liz,31,Austin,TX,78746,,No\n" +
                 "Ronald,43,Dallas,TX,75001,HR,No\n" +
-                "Rebecca,35,Houston,TX,77473,Finance,No");
+                "Rebecca,35,Houston,TX,77473,Finance,");
 
         String[] separateArray = secondCSV.split("\n");             //separate string by line
         ArrayList<Person> objectArray = new ArrayList<>();                //new arraylist of Person objects
+        String [] fixedLengthRowArray = new String[7];                    //fixed length array to handle missing data
 
-        for(int i = 1; i < separateArray.length; i++) {
-            String[] rowArrays = separateArray[i].split(",");//splits each row at comma (adjust for nulls?)
+        for(int i = 1; i < separateArray.length; i++) {                   //loop through each row
+            String [] rowArrays = separateArray[i].split(",");       //splits each row at commas
 
-            System.out.println(rowArrays.length);
-
-
-            objectArray.add(new Person(                                    //creates new person in my Person arraylist
-                    rowArrays[0],                                          //names
-                    Integer.parseInt(rowArrays[1]),                        //ages
-                    rowArrays[2],                                          //cities
-                    rowArrays[3],                                          //states
-                    Integer.parseInt(rowArrays[4]),                        //zips
-                    rowArrays[5],                                          //industry
-                    toBooleanObject(rowArrays[6])));                       //uses method to parse booleans
+            for(int j = 0; j < rowArrays.length; j++) {                     //loop through length of row
+                fixedLengthRowArray[j] = rowArrays[j];                      //adds data to fixed length array
+            }
+            objectArray.add(new Person());                                    //creates new person in my Person arraylist
+                objectArray.get(i-1).setName(fixedLengthRowArray[0]);                                          //names
+                objectArray.get(i-1).setAge(fixedLengthRowArray[1]);                                           //ages
+                objectArray.get(i-1).setCity(fixedLengthRowArray[2]);                                          //cities
+                objectArray.get(i-1).setState(fixedLengthRowArray[3]);                                          //states
+                objectArray.get(i-1).setZipCode(fixedLengthRowArray[4]);                                       //zips
+                objectArray.get(i-1).setIndustry(fixedLengthRowArray[5]);                                       //industry
+                objectArray.get(i-1).setSearching(fixedLengthRowArray[6]);                                    //searching?
         }
+
 
         HashMap<String, Integer> stateCountMap = new HashMap<String, Integer>(); //new hashmap for state counts
         ArrayList<String> states = new ArrayList<>();                            //new arraylist of states
-        for(int i = 0; i < separateArray.length - 1; i++) {
+        for(int i = 0; i < objectArray.size(); i++) {
             states.add(objectArray.get(i).getState());                           //adds states from objects
             if (!stateCountMap.containsKey(states.get(i))) {                     //check for 1st instance
                 stateCountMap.put(states.get(i), 1);                             //add to map with value 1
@@ -124,7 +187,7 @@ public class Person {
 
         HashMap<Integer, Integer> zipCountMap = new HashMap<Integer, Integer>();        //same as above for zips
         ArrayList<Integer> zips = new ArrayList<>();                                    //create method?
-        for(int i = 0; i < separateArray.length - 1; i++) {
+        for(int i = 0; i < objectArray.size(); i++) {
             zips.add(objectArray.get(i).getZipCode());
             if (!zipCountMap.containsKey(zips.get(i))) {
                 zipCountMap.put(zips.get(i), 1);
@@ -137,7 +200,7 @@ public class Person {
 
         HashMap<String, Integer> cityCountMap = new HashMap<String, Integer>();         // same but for cities
         ArrayList<String> cities = new ArrayList<>();                                   // make a method
-        for(int i = 0; i < separateArray.length - 1; i++) {
+        for(int i = 0; i < objectArray.size(); i++) {
             cities.add(objectArray.get(i).getCity());
             if (!cityCountMap.containsKey(cities.get(i))) {
                 cityCountMap.put(cities.get(i), 1);
