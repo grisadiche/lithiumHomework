@@ -39,8 +39,8 @@ public class FunctioningCode {
                 stateCountMap.put(states.get(i), stateCountMap.get(states.get(i)) + 1); //add one to count
             }
         }
-
-        int maxValueStates = Collections.max(stateCountMap.values());       //determines the highest value in statecounts map
+/*
+        int maxValueStates = Collections.max(Person.stateArray.values());       //determines the highest value in statecounts map
         ArrayList<String> maxStates = new ArrayList<>();                    //a list in case there are multiple maxes
         for (Map.Entry<String, Integer> entry : stateCountMap.entrySet()) {
             if (entry.getValue()==maxValueStates) {          // compares each value against max value
@@ -54,39 +54,18 @@ public class FunctioningCode {
                 maxStatePop.add(objectArray.get(i).getName());          //adds the name for each from that state
             }
         }
-
-        System.out.println("The counts for each state are: " + stateCountMap);
-        System.out.println("The most populous state(s): " + maxStates);
-        System.out.println("The following people reside in " + maxStates + ": " + maxStatePop);
-
-
-
-        HashMap<Integer, Integer> zipCountMap = new HashMap<Integer, Integer>();        //same as above for zips
-        ArrayList<Integer> zips = new ArrayList<>();                                    //create method?
-        for(int i = 0; i < objectArray.size(); i++) {
-            zips.add(objectArray.get(i).getZipCode());
-            if (!zipCountMap.containsKey(zips.get(i))) {
-                zipCountMap.put(zips.get(i), 1);
-            } else {
-                zipCountMap.put(zips.get(i), zipCountMap.get(zips.get(i)) + 1);
-            }
-        }
-
-        System.out.println("Zip codes by frequency: " + zipCountMap);
-
-        HashMap<String, Integer> cityCountMap = new HashMap<String, Integer>();         // same but for cities
-        ArrayList<String> cities = new ArrayList<>();                                   // make a method
-        for(int i = 0; i < objectArray.size(); i++) {
-            cities.add(objectArray.get(i).getCity());
-            if (!cityCountMap.containsKey(cities.get(i))) {
-                cityCountMap.put(cities.get(i), 1);
-            } else {
-                cityCountMap.put(cities.get(i), cityCountMap.get(cities.get(i)) + 1);
-            }
-        }
-
-        System.out.println("The following cities are represented: " + cityCountMap.keySet());
-
+*/
+        System.out.println("The counts for each state are: ");
+            System.out.println(Person.getCount(objectArray, "state"));
+        System.out.println("The most populous state(s): ");
+            System.out.println(Person.getMax("state"));
+        System.out.println("The following people reside in " + Person.getMax("state") + ": ");
+            Person.transform(Person.filter(objectArray, "state", Person.getMax("state")), "name");
+            //filters the arraylist to only those people in the max state, then transforms that list into just names.
+        System.out.println("Zip codes by frequency: ");
+            System.out.println(Person.getCount(objectArray, "zipcode"));
+        System.out.println("The following cities are represented: ");
+            System.out.println(Person.getCount(objectArray, "city"));
 
         ArrayList<Integer> ageArray = new ArrayList<>();
         for(int i = 0; i < objectArray.size(); i++){
@@ -99,9 +78,8 @@ public class FunctioningCode {
 
         System.out.println("The oldest person is: " + objectArray.get(ageMaxIndex));
         System.out.println("The youngest person is: " + objectArray.get(ageMinIndex));
-        //Person.getCount(objectArray,"industry");
+        System.out.println(Person.getCount(objectArray,"industry"));
+
         Person.getPopulation(objectArray);
-
-
     }
 }

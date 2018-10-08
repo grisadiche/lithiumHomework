@@ -1,5 +1,4 @@
 import java.util.*;
-import java.util.Map.Entry;
 import java.util.function.Predicate;
 
 public class Person {
@@ -10,7 +9,7 @@ public class Person {
     private String state;
     private int zipCode;
     private String industry;
-    private boolean searching;                     //add in boolean
+    private boolean searching;
 
 
     /*public Person(String name, int age, String city, String state, int zipCode, String industry, Boolean searching){
@@ -96,6 +95,52 @@ public class Person {
         }
     }
 
+    //getters
+    public String getName() {
+        return this.name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public int getZipCode() {
+        return zipCode;
+    }
+
+    public String getIndustry() {
+        return industry;
+    }
+
+    public Boolean getSearching() {
+        return searching;
+    }
+
+    public String toString() {                                           //replaces the hashcode object output with my own. not scalable to new fields
+        return "[" + name + "," + age + "," + city + "," + state + "," + zipCode + "," + industry + "," + searching + "]";
+    }
+    /*
+        @Override
+        public String toString() {
+            return "Person{" +
+                    "name='" + name + '\'' +
+                    ", age=" + age +
+                    ", city='" + city + '\'' +
+                    ", state='" + state + '\'' +
+                    ", zipCode=" + zipCode +
+                    ", industry='" + industry + '\'' +
+                    ", searching=" + searching +
+                    '}';
+        }
+    */
     public static ArrayList<String> nameArray = new ArrayList<>();
     public static ArrayList<String> ageArray = new ArrayList<>();
     public static ArrayList<String> cityArray = new ArrayList<>();
@@ -104,19 +149,40 @@ public class Person {
     public static ArrayList<String> industryArray = new ArrayList<>();
     public static ArrayList<String> searchingArray = new ArrayList<>();
 
-    public static void createDatabase(ArrayList<Person> masterArray) {
-        for (int i = 0; i < masterArray.size(); i++) {
-            nameArray.add(masterArray.get(i).getName());
-            ageArray.add(Integer.toString(masterArray.get(i).getAge()));
-            cityArray.add(masterArray.get(i).getCity());
-            stateArray.add(masterArray.get(i).getState());
-            zipCodeArray.add(Integer.toString(masterArray.get(i).getZipCode()));
-            industryArray.add(masterArray.get(i).getIndustry());
-            searchingArray.add(String.valueOf(masterArray.get(i).getSearching()));
+    public static void createDatabase(ArrayList<Person> personArray) {
+        for (int i = 0; i < personArray.size(); i++) {
+            nameArray.add(personArray.get(i).getName());
+            ageArray.add(Integer.toString(personArray.get(i).getAge()));
+            cityArray.add(personArray.get(i).getCity());
+            stateArray.add(personArray.get(i).getState());
+            zipCodeArray.add(Integer.toString(personArray.get(i).getZipCode()));
+            industryArray.add(personArray.get(i).getIndustry());
+            searchingArray.add(String.valueOf(personArray.get(i).getSearching()));
         }
     }
 
-    private static ArrayList<Person> filter(ArrayList<Person> personArray, String filterKey, String filterValue) {
+    public static String getMax (String maxKey) {
+        String maxValue = new String();
+        switch (maxKey) {
+            case "name": maxValue = Collections.max(nameArray);
+                break;
+            case "age": maxValue = Collections.max(ageArray);
+                break;
+            case "city": maxValue = Collections.max(cityArray);
+                break;
+            case "state": maxValue = Collections.max(stateArray);
+                break;
+            case "zipcode": maxValue = Collections.max(zipCodeArray);
+                break;
+            case "industry": maxValue = Collections.max(industryArray);
+                break;
+            case "searching": maxValue = Collections.max(searchingArray);
+                break;
+        }
+        return maxValue;
+    }
+
+    public static ArrayList<Person> filter(ArrayList<Person> personArray, String filterKey, String filterValue) { //method to create filtered arraylist
         ArrayList<Person> returnArray = new ArrayList<>(personArray);
         Predicate<Person> valueFilter = new Predicate<Person>() {
             @Override
@@ -156,21 +222,56 @@ public class Person {
         return returnArray;
     }
 
+    public static void transform (ArrayList<Person> personArray, String transformKey) { //transforms an arraylist of people into just their values
+        ArrayList<String> returnArray = new ArrayList<String>();
+        for(int i = 0; i < personArray.size(); i++) {
+            switch (transformKey) {
+                case "name": returnArray.add(personArray.get(i).getName());
+                    break;
+                case "age": returnArray.add(Integer.toString(personArray.get(i).getAge()));
+                    break;
+                case "city": returnArray.add(personArray.get(i).getCity());
+                    break;
+                case "state": returnArray.add(personArray.get(i).getState());
+                    break;
+                case "zipcode": returnArray.add(Integer.toString(personArray.get(i).getZipCode()));
+                    break;
+                case "industry": returnArray.add(personArray.get(i).getName());
+                    break;
+                case "searching": returnArray.add(String.valueOf(personArray.get(i).getName()));
+                    break;
+                case "all":
+                    break;
+                default: System.out.println("Please enter a valid attribute to list by, or choose all.");
+                    break;
+
+            }
+        }
+        if(returnArray.size() != 0) {
+            System.out.println(returnArray);
+        }
+        if(transformKey.equalsIgnoreCase("all")) {
+            System.out.println(personArray);
+        }
+    }
+
     public static void getPopulation(ArrayList<Person> personArray) {
 
 
         Scanner reader = new Scanner(System.in);
         System.out.println("Which value type would you like a list of? (name, age, city, state, zipcode, industry, searching)");
         String listValue = reader.nextLine();
-        getCount(personArray, listValue);
+        System.out.println(getCount(personArray, listValue));
         System.out.println("Which value would you like to sort by? Choose a specific value from the list above");
         String categoryValue = reader.nextLine();
+        System.out.println("Choose what attributes to list. (name, age, etc... or all");
+        String displayList = reader.nextLine();
         reader.close();
 
-        System.out.println(filter(personArray, listValue, categoryValue));
+        transform(filter(personArray, listValue, categoryValue), displayList);            //uses transrom and filter methods
     }
 
-    public static void getCount(ArrayList<Person> personArray, String searchString) {
+    public static HashMap<String, Integer> getCount(ArrayList<Person> personArray, String searchString) {
         HashMap<String, Integer> mapCount = new HashMap<String, Integer>();
 
         for (int i = 0; i < personArray.size(); i++) {
@@ -222,56 +323,11 @@ public class Person {
                 System.out.println("error");
             }
         }
-        System.out.println(mapCount);
-    }
-/*
-        for(int i = 0; i < objectArray.size(); i++) {
-            states.add(objectArray.get(i).getState());                           //adds states from objects
-            if (!stateCountMap.containsKey(states.get(i))) {                     //check for 1st instance
-                stateCountMap.put(states.get(i), 1);                             //add to map with value 1
-            } else {
-                stateCountMap.put(states.get(i), stateCountMap.get(states.get(i)) + 1); //add one to count
-            }
-        }
-
-    public void getList()
-    //public void getCount(ArrayList){
-
-    //}
-*/
-
-    //getters
-    public String getName() {
-        return this.name;
+        return mapCount;
     }
 
-    public int getAge() {
-        return age;
-    }
 
-    public String getCity() {
-        return city;
-    }
 
-    public String getState() {
-        return state;
-    }
-
-    public int getZipCode() {
-        return zipCode;
-    }
-
-    public String getIndustry() {
-        return industry;
-    }
-
-    public Boolean getSearching() {
-        return searching;
-    }
-
-    public String toString() {                                           //replaces the hashcode object output with my own. not scalable to new fields
-        return "[" + name + "," + age + "," + city + "," + state + "," + zipCode + "," + industry + "," + searching + "]";
-    }
 }
 
 
