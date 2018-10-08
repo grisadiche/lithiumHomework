@@ -12,16 +12,6 @@ public class Person {
     private boolean searching;
 
 
-    /*public Person(String name, int age, String city, String state, int zipCode, String industry, Boolean searching){
-        this.name = name;
-        this.age = age;
-        this.city = city;
-        this.state = state;
-        this.zipCode = zipCode;
-        this.industry = industry;
-        this.searching = searching;
-    }
-*/
     //setters
     public void setName(String name) {
         if (name.length() == 0) {
@@ -88,7 +78,7 @@ public class Person {
             this.searching = false;
         } else if (searching == null) {
             this.searching = false;
-        } else if (searching == "Yes") {
+        } else if (searching.equalsIgnoreCase("Yes")) {
             this.searching = true;
         } else {
             this.searching = false;
@@ -182,6 +172,61 @@ public class Person {
         return maxValue;
     }
 
+    public static HashMap<String, Integer> getCount(ArrayList<Person> personArray, String searchString) {
+        HashMap<String, Integer> mapCount = new HashMap<String, Integer>();
+
+        for (int i = 0; i < personArray.size(); i++) {
+            if (searchString.equalsIgnoreCase("name")) {
+                if (!mapCount.containsKey(personArray.get(i).getName())) {
+                    mapCount.put(personArray.get(i).getName(), 1);
+                } else {
+                    mapCount.put(personArray.get(i).getName(), mapCount.get(personArray.get(i).getName()) + 1);
+                }
+            } else if (searchString.equalsIgnoreCase("age")) {
+                if (!mapCount.containsKey(Integer.toString(personArray.get(i).getAge()))) {
+                    mapCount.put(Integer.toString(personArray.get(i).getAge()), 1);
+                } else {
+                    mapCount.put(Integer.toString(personArray.get(i).getAge()), mapCount.get(Integer.toString(personArray.get(i).getAge())) + 1);
+                }
+            } else if (searchString.equalsIgnoreCase("city")) {
+                if (!mapCount.containsKey(personArray.get(i).getCity())) {
+                    mapCount.put(personArray.get(i).getCity(), 1);
+                } else {
+                    mapCount.put(personArray.get(i).getCity(), mapCount.get(personArray.get(i).getCity()) + 1);
+                }
+
+            } else if (searchString.equalsIgnoreCase("state")) {
+                if (!mapCount.containsKey(personArray.get(i).getState())) {
+                    mapCount.put(personArray.get(i).getState(), 1);
+                } else {
+                    mapCount.put(personArray.get(i).getState(), mapCount.get(personArray.get(i).getState()) + 1);
+                }
+            } else if (searchString.equalsIgnoreCase("zipcode")) {
+                if (!mapCount.containsKey(Integer.toString(personArray.get(i).getZipCode()))) {
+                    mapCount.put(Integer.toString(personArray.get(i).getZipCode()), 1);
+                } else {
+                    mapCount.put(Integer.toString(personArray.get(i).getZipCode()), mapCount.get(Integer.toString(personArray.get(i).getZipCode())) + 1);
+                }
+            } else if (searchString.equalsIgnoreCase("industry")) {
+                if (!mapCount.containsKey(personArray.get(i).getIndustry())) {
+                    mapCount.put(personArray.get(i).getIndustry(), 1);
+                } else {
+                    mapCount.put(personArray.get(i).getIndustry(), mapCount.get(personArray.get(i).getIndustry()) + 1);
+                }
+
+            } else if (searchString.equalsIgnoreCase("searching")) {
+                if (!mapCount.containsKey(String.valueOf(personArray.get(i).getSearching()))) {
+                    mapCount.put(String.valueOf(personArray.get(i).getSearching()), 1);
+                } else {
+                    mapCount.put(String.valueOf(personArray.get(i).getSearching()), mapCount.get(String.valueOf(personArray.get(i).getSearching())) + 1);
+                }
+            } else {
+                System.out.println("error");
+            }
+        }
+        return mapCount;
+    }
+
     public static ArrayList<Person> filter(ArrayList<Person> personArray, String filterKey, String filterValue) { //method to create filtered arraylist
         ArrayList<Person> returnArray = new ArrayList<>(personArray);
         Predicate<Person> valueFilter = new Predicate<Person>() {
@@ -203,7 +248,7 @@ public class Person {
             case "state":
                 valueFilter = person -> !person.getState().equalsIgnoreCase(filterValue);
                 break;
-            case "zipCode":
+            case "zipcode":
                 valueFilter = person -> !Integer.toString(person.getZipCode()).equalsIgnoreCase(filterValue);
                 break;
             case "industry":
@@ -270,64 +315,6 @@ public class Person {
 
         transform(filter(personArray, listValue, categoryValue), displayList);            //uses transrom and filter methods
     }
-
-    public static HashMap<String, Integer> getCount(ArrayList<Person> personArray, String searchString) {
-        HashMap<String, Integer> mapCount = new HashMap<String, Integer>();
-
-        for (int i = 0; i < personArray.size(); i++) {
-            if (searchString.equalsIgnoreCase("name")) {
-                if (!mapCount.containsKey(nameArray.get(i))) {
-                    mapCount.put(nameArray.get(i), 1);
-                } else {
-                    mapCount.put(nameArray.get(i), mapCount.get(nameArray.get(i)) + 1);
-                }
-            } else if (searchString.equalsIgnoreCase("age")) {
-                if (!mapCount.containsKey(ageArray.get(i))) {
-                    mapCount.put(ageArray.get(i), 1);
-                } else {
-                    mapCount.put(ageArray.get(i), mapCount.get(ageArray.get(i)) + 1);
-                }
-            } else if (searchString.equalsIgnoreCase("city")) {
-                if (!mapCount.containsKey(cityArray.get(i))) {
-                    mapCount.put(cityArray.get(i), 1);
-                } else {
-                    mapCount.put(cityArray.get(i), mapCount.get(cityArray.get(i)) + 1);
-                }
-
-            } else if (searchString.equalsIgnoreCase("state")) {
-                if (!mapCount.containsKey(stateArray.get(i))) {
-                    mapCount.put(stateArray.get(i), 1);
-                } else {
-                    mapCount.put(stateArray.get(i), mapCount.get(stateArray.get(i)) + 1);
-                }
-            } else if (searchString.equalsIgnoreCase("zipcode")) {
-                if (!mapCount.containsKey(zipCodeArray.get(i))) {
-                    mapCount.put(zipCodeArray.get(i), 1);
-                } else {
-                    mapCount.put(zipCodeArray.get(i), mapCount.get(zipCodeArray.get(i)) + 1);
-                }
-            } else if (searchString.equalsIgnoreCase("industry")) {
-                if (!mapCount.containsKey(industryArray.get(i))) {
-                    mapCount.put(industryArray.get(i), 1);
-                } else {
-                    mapCount.put(industryArray.get(i), mapCount.get(industryArray.get(i)) + 1);
-                }
-
-            } else if (searchString.equalsIgnoreCase("searching")) {
-                if (!mapCount.containsKey(searchingArray.get(i))) {
-                    mapCount.put(searchingArray.get(i), 1);
-                } else {
-                    mapCount.put(searchingArray.get(i), mapCount.get(searchingArray.get(i)) + 1);
-                }
-            } else {
-                System.out.println("error");
-            }
-        }
-        return mapCount;
-    }
-
-
-
 }
 
 
