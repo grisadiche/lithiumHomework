@@ -132,7 +132,7 @@ public class Person {
         }
     */
 
-    public static String getMinMax (ArrayList<Person> personArray, String searchString, String minOrMax) {
+    public static String getMinMax(ArrayList<Person> personArray, String searchString, String minOrMax) {
         String returnValue = new String();
         Hashtable<String, Integer> maxMap = new Hashtable<>();
 
@@ -185,14 +185,14 @@ public class Person {
                 System.out.println("error");
             }
         }
-        if(minOrMax == "max") {
+        if (minOrMax.equalsIgnoreCase("max")) {
             int maxValueHash = Collections.max(maxMap.values());       //determines the highest value in statecounts map
             for (Map.Entry<String, Integer> entry : maxMap.entrySet()) {
                 if (entry.getValue() == maxValueHash) {          // compares each value against max value
                     returnValue = entry.getKey();               // add most populous state(s) to maxStates ArrayList
                 }
             }
-        } else if (minOrMax == "min") {
+        } else if (minOrMax.equalsIgnoreCase("min")) {
             int minValueHash = Collections.min(maxMap.values());       //determines the highest value in statecounts map
             for (Map.Entry<String, Integer> entry : maxMap.entrySet()) {
                 if (entry.getValue() == minValueHash) {          // compares each value against max value
@@ -200,22 +200,22 @@ public class Person {
                 }
             }
         }
-        if(searchString == "age"){
+        if (searchString.equalsIgnoreCase("age")) {
             System.out.println("***use minOrMaxAge method for oldest and youngest***");
         }
         return returnValue;
     }
 
-    public static Person maxOrMinAge(ArrayList<Person> personArray, String maxOrMin) {
+    public static Person getMinOrMaxAge(ArrayList<Person> personArray, String maxOrMin) {
         int maxMinIndex = -1;
         ArrayList<Integer> ageArray = new ArrayList<>();
         for (int i = 0; i < personArray.size(); i++) {
             ageArray.add(personArray.get(i).getAge());
         }
-        if(maxOrMin.equalsIgnoreCase("max")){
+        if (maxOrMin.equalsIgnoreCase("max")) {
             int ageMax = Collections.max(ageArray);
             maxMinIndex = ageArray.indexOf(ageMax);
-        } else if (maxOrMin.equalsIgnoreCase("min")){
+        } else if (maxOrMin.equalsIgnoreCase("min")) {
             int ageMin = Collections.min(ageArray);
             maxMinIndex = ageArray.indexOf(ageMin);
         }
@@ -244,7 +244,6 @@ public class Person {
                 } else {
                     mapCount.put(personArray.get(i).getCity(), mapCount.get(personArray.get(i).getCity()) + 1);
                 }
-
             } else if (countString.equalsIgnoreCase("state")) {
                 if (!mapCount.containsKey(personArray.get(i).getState())) {
                     mapCount.put(personArray.get(i).getState(), 1);
@@ -263,7 +262,6 @@ public class Person {
                 } else {
                     mapCount.put(personArray.get(i).getIndustry(), mapCount.get(personArray.get(i).getIndustry()) + 1);
                 }
-
             } else if (countString.equalsIgnoreCase("searching")) {
                 if (!mapCount.containsKey(String.valueOf(personArray.get(i).getSearching()))) {
                     mapCount.put(String.valueOf(personArray.get(i).getSearching()), 1);
@@ -277,7 +275,7 @@ public class Person {
         return mapCount;
     }
 
-    public static ArrayList<Person> filter(ArrayList<Person> personArray, String filterKey, String filterValue) { //method to create filtered arraylist
+    public static ArrayList<Person> filter(ArrayList<Person> personArray, String filterKey, String searchString) { //method to create filtered arraylist
         ArrayList<Person> returnArray = new ArrayList<>(personArray);
         Predicate<Person> valueFilter = new Predicate<Person>() {
             @Override
@@ -287,25 +285,25 @@ public class Person {
         };
         switch (filterKey) {
             case "name":
-                valueFilter = person -> !person.getName().equalsIgnoreCase(filterValue);
+                valueFilter = person -> !person.getName().equalsIgnoreCase(searchString);
                 break;
             case "age":
-                valueFilter = person -> !Integer.toString(person.getAge()).equalsIgnoreCase(filterValue);
+                valueFilter = person -> !Integer.toString(person.getAge()).equalsIgnoreCase(searchString);
                 break;
             case "city":
-                valueFilter = person -> !person.getCity().equalsIgnoreCase(filterValue);
+                valueFilter = person -> !person.getCity().equalsIgnoreCase(searchString);
                 break;
             case "state":
-                valueFilter = person -> !person.getState().equalsIgnoreCase(filterValue);
+                valueFilter = person -> !person.getState().equalsIgnoreCase(searchString);
                 break;
             case "zipcode":
-                valueFilter = person -> !Integer.toString(person.getZipCode()).equalsIgnoreCase(filterValue);
+                valueFilter = person -> !Integer.toString(person.getZipCode()).equalsIgnoreCase(searchString);
                 break;
             case "industry":
-                valueFilter = person -> !person.getIndustry().equalsIgnoreCase(filterValue);
+                valueFilter = person -> !person.getIndustry().equalsIgnoreCase(searchString);
                 break;
             case "searching":
-                valueFilter = person -> !String.valueOf(person.getSearching()).equalsIgnoreCase(filterValue);
+                valueFilter = person -> !String.valueOf(person.getSearching()).equalsIgnoreCase(searchString);
                 break;
             default:
                 System.out.println("Please choose one of the categories: name, age, city, state, zipcode, industry, or searching");
@@ -317,35 +315,43 @@ public class Person {
         return returnArray;
     }
 
-    public static void transform (ArrayList<Person> personArray, String transformKey) { //transforms an arraylist of people into just their values
+    public static void transform(ArrayList<Person> personArray, String transformKey) { //transforms an arraylist of people into just their values
         ArrayList<String> returnArray = new ArrayList<String>();
-        for(int i = 0; i < personArray.size(); i++) {
+        for (int i = 0; i < personArray.size(); i++) {
             switch (transformKey) {
-                case "name": returnArray.add(personArray.get(i).getName());
+                case "name":
+                    returnArray.add(personArray.get(i).getName());
                     break;
-                case "age": returnArray.add(Integer.toString(personArray.get(i).getAge()));
+                case "age":
+                    returnArray.add(Integer.toString(personArray.get(i).getAge()));
                     break;
-                case "city": returnArray.add(personArray.get(i).getCity());
+                case "city":
+                    returnArray.add(personArray.get(i).getCity());
                     break;
-                case "state": returnArray.add(personArray.get(i).getState());
+                case "state":
+                    returnArray.add(personArray.get(i).getState());
                     break;
-                case "zipcode": returnArray.add(Integer.toString(personArray.get(i).getZipCode()));
+                case "zipcode":
+                    returnArray.add(Integer.toString(personArray.get(i).getZipCode()));
                     break;
-                case "industry": returnArray.add(personArray.get(i).getName());
+                case "industry":
+                    returnArray.add(personArray.get(i).getName());
                     break;
-                case "searching": returnArray.add(String.valueOf(personArray.get(i).getName()));
+                case "searching":
+                    returnArray.add(String.valueOf(personArray.get(i).getName()));
                     break;
                 case "all":
                     break;
-                default: System.out.println("Please enter a valid attribute to list by, or choose all.");
+                default:
+                    System.out.println("Please enter a valid attribute to list by, or choose all.");
                     break;
 
             }
         }
-        if(returnArray.size() != 0) {
+        if (returnArray.size() != 0) {
             System.out.println(returnArray);
         }
-        if(transformKey.equalsIgnoreCase("all")) {
+        if (transformKey.equalsIgnoreCase("all")) {
             System.out.println(personArray);
         }
     }
@@ -354,12 +360,12 @@ public class Person {
 
 
         Scanner reader = new Scanner(System.in);
-        System.out.println("Which value type would you like a list of? (name, age, city, state, zipcode, industry, searching)");
+        System.out.println("Which attribute would you like to sort by? (name, age, city, state, zipcode, industry, searching)");
         String listValue = reader.nextLine();
         System.out.println(getCount(personArray, listValue));
         System.out.println("Which value would you like to sort by? Choose a specific value from the list above");
         String categoryValue = reader.nextLine();
-        System.out.println("Choose what attributes to list. (name, age, etc... or all");
+        System.out.println("Choose what attributes to list. (name, age, etc... or all)");
         String displayList = reader.nextLine();
         reader.close();
 

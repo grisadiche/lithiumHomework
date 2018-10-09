@@ -1,7 +1,4 @@
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
 
 public class FunctioningCode {
 
@@ -28,19 +25,19 @@ public class FunctioningCode {
         }
 
         System.out.println("The counts for each state are: ");
-            System.out.println(Person.getCount(objectArray, "state"));
+        System.out.println(Person.getCount(objectArray, "state"));
         System.out.println("The most populous state(s): ");
-            System.out.println(Person.getMinMax(objectArray, "state", "max"));
-        System.out.println("The following people reside in " + Person.getMinMax(objectArray,"state", "max") + ": ");
-            Person.transform(Person.filter(objectArray, "state", Person.getMinMax(objectArray,"state", "max")), "name");
+        System.out.println(Person.getMinMax(objectArray, "state", "max"));
+        System.out.println("The following people reside in " + Person.getMinMax(objectArray, "state", "max") + ": ");
+        Person.transform(Person.filter(objectArray, "state", Person.getMinMax(objectArray, "state", "max")), "name");
         //filters the arraylist to only those people in the max state, then transforms that list into just names.
         System.out.println("Zip codes by frequency: ");
-            System.out.println(Person.getCount(objectArray, "zipcode"));
+        System.out.println(Person.getCount(objectArray, "zipcode"));
         System.out.println("The following cities are represented: ");
-            System.out.println(Person.getCount(objectArray, "city").keySet()); //creates count hashmap, displays only keys
+        System.out.println(Person.getCount(objectArray, "city").keySet()); //creates count hashmap, displays only keys
 
-        System.out.println("The oldest person is: " + Person.maxOrMinAge(objectArray, "max"));
-        System.out.println("The youngest person is: " + Person.maxOrMinAge(objectArray,"min"));
+        System.out.println("The oldest person is: " + Person.getMinOrMaxAge(objectArray, "max"));
+        System.out.println("The youngest person is: " + Person.getMinOrMaxAge(objectArray, "min"));
         System.out.println(Person.getCount(objectArray, "industry"));
         System.out.println(Person.getCount(objectArray, "state"));
         System.out.println(Person.getMinMax(objectArray, "state", "min"));
