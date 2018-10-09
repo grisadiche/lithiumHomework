@@ -131,90 +131,140 @@ public class Person {
                     '}';
         }
     */
-    public static ArrayList<String> nameArray = new ArrayList<>();
-    public static ArrayList<String> ageArray = new ArrayList<>();
-    public static ArrayList<String> cityArray = new ArrayList<>();
-    public static ArrayList<String> stateArray = new ArrayList<>();
-    public static ArrayList<String> zipCodeArray = new ArrayList<>();
-    public static ArrayList<String> industryArray = new ArrayList<>();
-    public static ArrayList<String> searchingArray = new ArrayList<>();
 
-    public static void createDatabase(ArrayList<Person> personArray) {
-        for (int i = 0; i < personArray.size(); i++) {
-            nameArray.add(personArray.get(i).getName());
-            ageArray.add(Integer.toString(personArray.get(i).getAge()));
-            cityArray.add(personArray.get(i).getCity());
-            stateArray.add(personArray.get(i).getState());
-            zipCodeArray.add(Integer.toString(personArray.get(i).getZipCode()));
-            industryArray.add(personArray.get(i).getIndustry());
-            searchingArray.add(String.valueOf(personArray.get(i).getSearching()));
-        }
-    }
-
-    public static String getMax (String maxKey) {
-        String maxValue = new String();
-        switch (maxKey) {
-            case "name": maxValue = Collections.max(nameArray);
-                break;
-            case "age": maxValue = Collections.max(ageArray);
-                break;
-            case "city": maxValue = Collections.max(cityArray);
-                break;
-            case "state": maxValue = Collections.max(stateArray);
-                break;
-            case "zipcode": maxValue = Collections.max(zipCodeArray);
-                break;
-            case "industry": maxValue = Collections.max(industryArray);
-                break;
-            case "searching": maxValue = Collections.max(searchingArray);
-                break;
-        }
-        return maxValue;
-    }
-
-    public static HashMap<String, Integer> getCount(ArrayList<Person> personArray, String searchString) {
-        HashMap<String, Integer> mapCount = new HashMap<String, Integer>();
+    public static String getMinMax (ArrayList<Person> personArray, String searchString, String minOrMax) {
+        String returnValue = new String();
+        Hashtable<String, Integer> maxMap = new Hashtable<>();
 
         for (int i = 0; i < personArray.size(); i++) {
             if (searchString.equalsIgnoreCase("name")) {
+                if (!maxMap.containsKey(personArray.get(i).getName())) {
+                    maxMap.put(personArray.get(i).getName(), 1);
+                } else {
+                    maxMap.put(personArray.get(i).getName(), maxMap.get(personArray.get(i).getName()) + 1);
+                }
+            } else if (searchString.equalsIgnoreCase("age")) {
+                if (!maxMap.containsKey(Integer.toString(personArray.get(i).getAge()))) {
+                    maxMap.put(Integer.toString(personArray.get(i).getAge()), 1);
+                } else {
+                    maxMap.put(Integer.toString(personArray.get(i).getAge()), maxMap.get(Integer.toString(personArray.get(i).getAge())) + 1);
+                }
+            } else if (searchString.equalsIgnoreCase("city")) {
+                if (!maxMap.containsKey(personArray.get(i).getCity())) {
+                    maxMap.put(personArray.get(i).getCity(), 1);
+                } else {
+                    maxMap.put(personArray.get(i).getCity(), maxMap.get(personArray.get(i).getCity()) + 1);
+                }
+
+            } else if (searchString.equalsIgnoreCase("state")) {
+                if (!maxMap.containsKey(personArray.get(i).getState())) {
+                    maxMap.put(personArray.get(i).getState(), 1);
+                } else {
+                    maxMap.put(personArray.get(i).getState(), maxMap.get(personArray.get(i).getState()) + 1);
+                }
+            } else if (searchString.equalsIgnoreCase("zipcode")) {
+                if (!maxMap.containsKey(Integer.toString(personArray.get(i).getZipCode()))) {
+                    maxMap.put(Integer.toString(personArray.get(i).getZipCode()), 1);
+                } else {
+                    maxMap.put(Integer.toString(personArray.get(i).getZipCode()), maxMap.get(Integer.toString(personArray.get(i).getZipCode())) + 1);
+                }
+            } else if (searchString.equalsIgnoreCase("industry")) {
+                if (!maxMap.containsKey(personArray.get(i).getIndustry())) {
+                    maxMap.put(personArray.get(i).getIndustry(), 1);
+                } else {
+                    maxMap.put(personArray.get(i).getIndustry(), maxMap.get(personArray.get(i).getIndustry()) + 1);
+                }
+
+            } else if (searchString.equalsIgnoreCase("searching")) {
+                if (!maxMap.containsKey(String.valueOf(personArray.get(i).getSearching()))) {
+                    maxMap.put(String.valueOf(personArray.get(i).getSearching()), 1);
+                } else {
+                    maxMap.put(String.valueOf(personArray.get(i).getSearching()), maxMap.get(String.valueOf(personArray.get(i).getSearching())) + 1);
+                }
+            } else {
+                System.out.println("error");
+            }
+        }
+        if(minOrMax == "max") {
+            int maxValueHash = Collections.max(maxMap.values());       //determines the highest value in statecounts map
+            for (Map.Entry<String, Integer> entry : maxMap.entrySet()) {
+                if (entry.getValue() == maxValueHash) {          // compares each value against max value
+                    returnValue = entry.getKey();               // add most populous state(s) to maxStates ArrayList
+                }
+            }
+        } else if (minOrMax == "min") {
+            int minValueHash = Collections.min(maxMap.values());       //determines the highest value in statecounts map
+            for (Map.Entry<String, Integer> entry : maxMap.entrySet()) {
+                if (entry.getValue() == minValueHash) {          // compares each value against max value
+                    returnValue = entry.getKey();               // add most populous state(s) to maxStates ArrayList
+                }
+            }
+        }
+        if(searchString == "age"){
+            System.out.println("***use minOrMaxAge method for oldest and youngest***");
+        }
+        return returnValue;
+    }
+
+    public static Person maxOrMinAge(ArrayList<Person> personArray, String maxOrMin) {
+        int maxMinIndex = -1;
+        ArrayList<Integer> ageArray = new ArrayList<>();
+        for (int i = 0; i < personArray.size(); i++) {
+            ageArray.add(personArray.get(i).getAge());
+        }
+        if(maxOrMin.equalsIgnoreCase("max")){
+            int ageMax = Collections.max(ageArray);
+            maxMinIndex = ageArray.indexOf(ageMax);
+        } else if (maxOrMin.equalsIgnoreCase("min")){
+            int ageMin = Collections.min(ageArray);
+            maxMinIndex = ageArray.indexOf(ageMin);
+        }
+        return personArray.get(maxMinIndex);
+    }
+
+    public static HashMap<String, Integer> getCount(ArrayList<Person> personArray, String countString) {
+        HashMap<String, Integer> mapCount = new HashMap<String, Integer>();
+
+        for (int i = 0; i < personArray.size(); i++) {
+            if (countString.equalsIgnoreCase("name")) {
                 if (!mapCount.containsKey(personArray.get(i).getName())) {
                     mapCount.put(personArray.get(i).getName(), 1);
                 } else {
                     mapCount.put(personArray.get(i).getName(), mapCount.get(personArray.get(i).getName()) + 1);
                 }
-            } else if (searchString.equalsIgnoreCase("age")) {
+            } else if (countString.equalsIgnoreCase("age")) {
                 if (!mapCount.containsKey(Integer.toString(personArray.get(i).getAge()))) {
                     mapCount.put(Integer.toString(personArray.get(i).getAge()), 1);
                 } else {
                     mapCount.put(Integer.toString(personArray.get(i).getAge()), mapCount.get(Integer.toString(personArray.get(i).getAge())) + 1);
                 }
-            } else if (searchString.equalsIgnoreCase("city")) {
+            } else if (countString.equalsIgnoreCase("city")) {
                 if (!mapCount.containsKey(personArray.get(i).getCity())) {
                     mapCount.put(personArray.get(i).getCity(), 1);
                 } else {
                     mapCount.put(personArray.get(i).getCity(), mapCount.get(personArray.get(i).getCity()) + 1);
                 }
 
-            } else if (searchString.equalsIgnoreCase("state")) {
+            } else if (countString.equalsIgnoreCase("state")) {
                 if (!mapCount.containsKey(personArray.get(i).getState())) {
                     mapCount.put(personArray.get(i).getState(), 1);
                 } else {
                     mapCount.put(personArray.get(i).getState(), mapCount.get(personArray.get(i).getState()) + 1);
                 }
-            } else if (searchString.equalsIgnoreCase("zipcode")) {
+            } else if (countString.equalsIgnoreCase("zipcode")) {
                 if (!mapCount.containsKey(Integer.toString(personArray.get(i).getZipCode()))) {
                     mapCount.put(Integer.toString(personArray.get(i).getZipCode()), 1);
                 } else {
                     mapCount.put(Integer.toString(personArray.get(i).getZipCode()), mapCount.get(Integer.toString(personArray.get(i).getZipCode())) + 1);
                 }
-            } else if (searchString.equalsIgnoreCase("industry")) {
+            } else if (countString.equalsIgnoreCase("industry")) {
                 if (!mapCount.containsKey(personArray.get(i).getIndustry())) {
                     mapCount.put(personArray.get(i).getIndustry(), 1);
                 } else {
                     mapCount.put(personArray.get(i).getIndustry(), mapCount.get(personArray.get(i).getIndustry()) + 1);
                 }
 
-            } else if (searchString.equalsIgnoreCase("searching")) {
+            } else if (countString.equalsIgnoreCase("searching")) {
                 if (!mapCount.containsKey(String.valueOf(personArray.get(i).getSearching()))) {
                     mapCount.put(String.valueOf(personArray.get(i).getSearching()), 1);
                 } else {
