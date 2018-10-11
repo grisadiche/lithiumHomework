@@ -5,7 +5,7 @@ public class Person {
     private String city;
     private String state;
     private int zipCode;
-    private String industry;
+    private String industry = "unkown";
     private boolean searching = false;
 
 
