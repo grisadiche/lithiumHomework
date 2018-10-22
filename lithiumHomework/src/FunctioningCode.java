@@ -2,7 +2,6 @@ public class FunctioningCode {
 
     public static void main(String[] args) {
 
-
         PersonCalc.csvParse();                                  //parses the csv so we can use the personList
 
         System.out.println("The counts for each state are: " +
@@ -25,13 +24,16 @@ public class FunctioningCode {
 
         System.out.println("The youngest person is: " + PersonCalc.getMinOrMaxAge(PersonCalc.personList, "min"));
 
-        System.out.println(PersonCalc.getCount(PersonCalc.personList, "industry"));
+        System.out.println("The number of people in each industry: " +
+                PersonCalc.getCount(PersonCalc.personList, "industry"));
 
-        System.out.println(PersonCalc.getCount(PersonCalc.personList, "state"));
+        System.out.println("The number of people in each state: " +
+                PersonCalc.getCount(PersonCalc.personList, "state"));
 
-        System.out.println(PersonCalc.getMinMaxFreq(PersonCalc.personList, "state", "min"));
+        System.out.println("The state with the least people represented is: " +
+                PersonCalc.getMinMaxFreq(PersonCalc.personList, "state", "min"));
 
-        PersonCalc.getPopulation(PersonCalc.personList);
+        //PersonCalc.getPopulation(PersonCalc.personList);
 
     }
 }
