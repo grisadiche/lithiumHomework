@@ -3,6 +3,37 @@ import java.util.function.Predicate;
 
 public class PersonCalc {
 
+    public enum Attribute {
+        NAME ("Name"),
+        AGE ("Age"),
+        CITY ("City"),
+        STATE ("State"),
+        ZIPCODE ("ZipCode"),
+        INDUSTRY ("Industry"),
+        SEARCHING ("Searching"),
+        ALL ("All");
+
+        private String attribute;
+
+        Attribute(String attString) {
+            this.attribute = attString;
+        }
+
+        public String getAttString() {
+            return attribute;
+        }
+    }
+
+    public static String attName = Attribute.NAME.getAttString();
+    public static String attAge = Attribute.AGE.getAttString();
+    public static String attCity = Attribute.CITY.getAttString();
+    public static String attState = Attribute.STATE.getAttString();
+    public static String attZipCode = Attribute.ZIPCODE.getAttString();
+    public static String attIndustry = Attribute.INDUSTRY.getAttString();
+    public static String attSearching = Attribute.SEARCHING.getAttString();
+    public static String attAll = Attribute.ALL.getAttString();
+
+
     public static ArrayList<Person> personList = new ArrayList<>();
 
     public static void csvParse() {
@@ -123,7 +154,7 @@ public class PersonCalc {
         return mapCount;
     }
 
-    public static ArrayList<Person> filter(ArrayList<Person> personArray, String filterKey, String searchString) { //method to create filtered arraylist
+    public static ArrayList<Person> filter(ArrayList<Person> personArray, Attribute filterKey, String searchString) { //method to create filtered arraylist
         ArrayList<Person> returnArray = new ArrayList<>(personArray);
         Predicate<Person> valueFilter = new Predicate<Person>() {
             @Override
@@ -132,25 +163,25 @@ public class PersonCalc {
             }
         };
         switch (filterKey) {
-            case "name":
+            case NAME:
                 valueFilter = person -> !person.getName().equalsIgnoreCase(searchString);
                 break;
-            case "age":
+            case AGE:
                 valueFilter = person -> !Integer.toString(person.getAge()).equalsIgnoreCase(searchString);
                 break;
-            case "city":
+            case CITY:
                 valueFilter = person -> !person.getCity().equalsIgnoreCase(searchString);
                 break;
-            case "state":
+            case STATE:
                 valueFilter = person -> !person.getState().equalsIgnoreCase(searchString);
                 break;
-            case "zipcode":
+            case ZIPCODE:
                 valueFilter = person -> !Integer.toString(person.getZipCode()).equalsIgnoreCase(searchString);
                 break;
-            case "industry":
+            case INDUSTRY:
                 valueFilter = person -> !person.getIndustry().equalsIgnoreCase(searchString);
                 break;
-            case "searching":
+            case SEARCHING:
                 valueFilter = person -> !String.valueOf(person.getSearching()).equalsIgnoreCase(searchString);
                 break;
             default:
@@ -163,32 +194,32 @@ public class PersonCalc {
         return returnArray;
     }
 
-    public static void transform(ArrayList<Person> personArray, String transformKey) { //transforms an arraylist of people into just their values
+    public static void transform(ArrayList<Person> personArray, Attribute transformKey) { //transforms an arraylist of people into just their values
         ArrayList<String> returnArray = new ArrayList<String>();
         for (int i = 0; i < personArray.size(); i++) {
             switch (transformKey) {
-                case "name":
+                case NAME:
                     returnArray.add(personArray.get(i).getName());
                     break;
-                case "age":
+                case AGE:
                     returnArray.add(Integer.toString(personArray.get(i).getAge()));
                     break;
-                case "city":
+                case CITY:
                     returnArray.add(personArray.get(i).getCity());
                     break;
-                case "state":
+                case STATE:
                     returnArray.add(personArray.get(i).getState());
                     break;
-                case "zipcode":
+                case ZIPCODE:
                     returnArray.add(Integer.toString(personArray.get(i).getZipCode()));
                     break;
-                case "industry":
+                case INDUSTRY:
                     returnArray.add(personArray.get(i).getName());
                     break;
-                case "searching":
+                case SEARCHING:
                     returnArray.add(String.valueOf(personArray.get(i).getName()));
                     break;
-                case "all":
+                case ALL:
                     break;
                 default:
                     System.out.println("Please enter a valid attribute to list by, or choose all.");
@@ -199,7 +230,7 @@ public class PersonCalc {
         if (returnArray.size() != 0) {
             System.out.println(returnArray);
         }
-        if (transformKey.equalsIgnoreCase("all")) {
+        if (transformKey.equals(Attribute.ALL)) {
             System.out.println(personArray);
         }
     }
@@ -210,13 +241,15 @@ public class PersonCalc {
         Scanner reader = new Scanner(System.in);
         System.out.println("Which attribute would you like to sort by? (name, age, city, state, zipcode, industry, searching)");
         String listValue = reader.nextLine();
+        Attribute listAttribute = Attribute.valueOf(listValue.toUpperCase());
         System.out.println(getCount(personArray, listValue));
         System.out.println("Which value would you like to sort by? Choose a specific value from the list above");
         String categoryValue = reader.nextLine();
         System.out.println("Choose what attributes to list. (name, age, etc... or all)");
         String displayList = reader.nextLine();
+        Attribute displayAttribute = Attribute.valueOf(displayList.toUpperCase());
         reader.close();
 
-        transform(filter(personArray, listValue, categoryValue), displayList);            //uses transrom and filter methods
+        transform(filter(personArray, listAttribute, categoryValue), displayAttribute);            //uses transform and filter methods
     }
 }
