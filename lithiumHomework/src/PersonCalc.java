@@ -60,7 +60,7 @@ public class PersonCalc {
         }
     }
 
-    public static String getMinMaxFreq(ArrayList<Person> personArray, String searchString, String minOrMax) {
+    public static String getMinMaxFreq(ArrayList<Person> personArray, Attribute searchString, String minOrMax) {
         String returnValue = new String();
         HashMap<String, Integer> maxMap = getCount(personArray, searchString);
 
@@ -79,7 +79,7 @@ public class PersonCalc {
                 }
             }
         }
-        if (searchString.equalsIgnoreCase("age")) {
+        if (searchString.equals(Attribute.AGE)) {
             System.out.println("***use minOrMaxAge method for oldest and youngest***");
         }
         return returnValue;
@@ -101,56 +101,65 @@ public class PersonCalc {
         return personArray.get(maxMinIndex);
     }
 
-    public static HashMap<String, Integer> getCount(ArrayList<Person> personArray, String countString) {
+    public static HashMap<String, Integer> getCount(ArrayList<Person> personArray, Attribute countAttribute) {
         HashMap<String, Integer> mapCount = new HashMap<String, Integer>();
 
         for (int i = 0; i < personArray.size(); i++) {
-            if (countString.equalsIgnoreCase("name")) {
-                if (!mapCount.containsKey(personArray.get(i).getName())) {
-                    mapCount.put(personArray.get(i).getName(), 1);
-                } else {
-                    mapCount.put(personArray.get(i).getName(), mapCount.get(personArray.get(i).getName()) + 1);
+            switch (countAttribute) {
+                case NAME:
+                    if (!mapCount.containsKey(personArray.get(i).getName())) {
+                        mapCount.put(personArray.get(i).getName(), 1);
+                    } else {
+                        mapCount.put(personArray.get(i).getName(), mapCount.get(personArray.get(i).getName()) + 1);
+                    }
+                    break;
+                case AGE:
+                    if (!mapCount.containsKey(Integer.toString(personArray.get(i).getAge()))) {
+                        mapCount.put(Integer.toString(personArray.get(i).getAge()), 1);
+                    } else {
+                        mapCount.put(Integer.toString(personArray.get(i).getAge()), mapCount.get(Integer.toString(personArray.get(i).getAge())) + 1);
+                    }
+                    break;
+                case CITY:
+                    if (!mapCount.containsKey(personArray.get(i).getCity())) {
+                        mapCount.put(personArray.get(i).getCity(), 1);
+                    } else {
+                        mapCount.put(personArray.get(i).getCity(), mapCount.get(personArray.get(i).getCity()) + 1);
+                    }
+                    break;
+                case STATE:
+                    if (!mapCount.containsKey(personArray.get(i).getState())) {
+                        mapCount.put(personArray.get(i).getState(), 1);
+                    } else {
+                        mapCount.put(personArray.get(i).getState(), mapCount.get(personArray.get(i).getState()) + 1);
+                    }
+                    break;
+                case ZIPCODE:
+                    if (!mapCount.containsKey(Integer.toString(personArray.get(i).getZipCode()))) {
+                        mapCount.put(Integer.toString(personArray.get(i).getZipCode()), 1);
+                    } else {
+                        mapCount.put(Integer.toString(personArray.get(i).getZipCode()), mapCount.get(Integer.toString(personArray.get(i).getZipCode())) + 1);
+                    }
+                    break;
+                case INDUSTRY:
+                    if (!mapCount.containsKey(personArray.get(i).getIndustry())) {
+                        mapCount.put(personArray.get(i).getIndustry(), 1);
+                    } else {
+                        mapCount.put(personArray.get(i).getIndustry(), mapCount.get(personArray.get(i).getIndustry()) + 1);
+                    }
+                    break;
+                case SEARCHING:
+                    if (!mapCount.containsKey(String.valueOf(personArray.get(i).getSearching()))) {
+                        mapCount.put(String.valueOf(personArray.get(i).getSearching()), 1);
+                    } else {
+                        mapCount.put(String.valueOf(personArray.get(i).getSearching()), mapCount.get(String.valueOf(personArray.get(i).getSearching())) + 1);
+                    }
+                    break;
+                default:
+                    System.out.println("error");
+                    break;
                 }
-            } else if (countString.equalsIgnoreCase("age")) {
-                if (!mapCount.containsKey(Integer.toString(personArray.get(i).getAge()))) {
-                    mapCount.put(Integer.toString(personArray.get(i).getAge()), 1);
-                } else {
-                    mapCount.put(Integer.toString(personArray.get(i).getAge()), mapCount.get(Integer.toString(personArray.get(i).getAge())) + 1);
-                }
-            } else if (countString.equalsIgnoreCase("city")) {
-                if (!mapCount.containsKey(personArray.get(i).getCity())) {
-                    mapCount.put(personArray.get(i).getCity(), 1);
-                } else {
-                    mapCount.put(personArray.get(i).getCity(), mapCount.get(personArray.get(i).getCity()) + 1);
-                }
-            } else if (countString.equalsIgnoreCase("state")) {
-                if (!mapCount.containsKey(personArray.get(i).getState())) {
-                    mapCount.put(personArray.get(i).getState(), 1);
-                } else {
-                    mapCount.put(personArray.get(i).getState(), mapCount.get(personArray.get(i).getState()) + 1);
-                }
-            } else if (countString.equalsIgnoreCase("zipcode")) {
-                if (!mapCount.containsKey(Integer.toString(personArray.get(i).getZipCode()))) {
-                    mapCount.put(Integer.toString(personArray.get(i).getZipCode()), 1);
-                } else {
-                    mapCount.put(Integer.toString(personArray.get(i).getZipCode()), mapCount.get(Integer.toString(personArray.get(i).getZipCode())) + 1);
-                }
-            } else if (countString.equalsIgnoreCase("industry")) {
-                if (!mapCount.containsKey(personArray.get(i).getIndustry())) {
-                    mapCount.put(personArray.get(i).getIndustry(), 1);
-                } else {
-                    mapCount.put(personArray.get(i).getIndustry(), mapCount.get(personArray.get(i).getIndustry()) + 1);
-                }
-            } else if (countString.equalsIgnoreCase("searching")) {
-                if (!mapCount.containsKey(String.valueOf(personArray.get(i).getSearching()))) {
-                    mapCount.put(String.valueOf(personArray.get(i).getSearching()), 1);
-                } else {
-                    mapCount.put(String.valueOf(personArray.get(i).getSearching()), mapCount.get(String.valueOf(personArray.get(i).getSearching())) + 1);
-                }
-            } else {
-                System.out.println("error");
             }
-        }
         return mapCount;
     }
 
@@ -242,7 +251,7 @@ public class PersonCalc {
         System.out.println("Which attribute would you like to sort by? (name, age, city, state, zipcode, industry, searching)");
         String listValue = reader.nextLine();
         Attribute listAttribute = Attribute.valueOf(listValue.toUpperCase());
-        System.out.println(getCount(personArray, listValue));
+        System.out.println(getCount(personArray, listAttribute));
         System.out.println("Which value would you like to sort by? Choose a specific value from the list above");
         String categoryValue = reader.nextLine();
         System.out.println("Choose what attributes to list. (name, age, etc... or all)");
