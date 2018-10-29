@@ -1,5 +1,7 @@
 import java.util.*;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class PersonCalc {
 
@@ -18,21 +20,10 @@ public class PersonCalc {
         Attribute(String attString) {
             this.attribute = attString;
         }
-
-        public String getAttString() {
-            return attribute;
-        }
     }
-
-    public static String attName = Attribute.NAME.getAttString();
-    public static String attAge = Attribute.AGE.getAttString();
-    public static String attCity = Attribute.CITY.getAttString();
-    public static String attState = Attribute.STATE.getAttString();
-    public static String attZipCode = Attribute.ZIPCODE.getAttString();
-    public static String attIndustry = Attribute.INDUSTRY.getAttString();
-    public static String attSearching = Attribute.SEARCHING.getAttString();
-    public static String attAll = Attribute.ALL.getAttString();
-
+    public static List<String> attributeList = Stream.of(Attribute.values())
+            .map(Attribute::name)
+            .collect(Collectors.toList());
 
     public static ArrayList<Person> personList = new ArrayList<>();
 
@@ -78,6 +69,8 @@ public class PersonCalc {
                     returnValue = entry.getKey();               // add most populous state(s) to maxStates ArrayList
                 }
             }
+        } else if (!minOrMax.equalsIgnoreCase("min") || !minOrMax.equalsIgnoreCase("max")) {
+            System.out.println("***Min or Max not chosen, check getMinMaxFreq method.***");
         }
         if (searchString.equals(Attribute.AGE)) {
             System.out.println("***use minOrMaxAge method for oldest and youngest***");
@@ -85,20 +78,33 @@ public class PersonCalc {
         return returnValue;
     }
 
-    public static Person getMinOrMaxAge(ArrayList<Person> personArray, String maxOrMin) {
-        int maxMinIndex = -1;
-        ArrayList<Integer> ageArray = new ArrayList<>();
-        for (int i = 0; i < personArray.size(); i++) {
-            ageArray.add(personArray.get(i).getAge());
+    public static void getMinOrMaxAge(ArrayList<Person> personArray, String maxOrMin) {
+        if (personArray.size() > 0) {
+            ArrayList<Integer> ageArray = new ArrayList<>();
+            for (int i = 0; i < personArray.size(); i++) {
+                ageArray.add(personArray.get(i).getAge());
+            }
+
+            switch (maxOrMin.toUpperCase()) {
+                case "MAX":
+                    int ageMax = Collections.max(ageArray);
+                    int maxIndex = 0;
+                    maxIndex = ageArray.indexOf(ageMax);
+                    System.out.println(personArray.get(maxIndex));
+                    break;
+                case "MIN":
+                    int ageMin = Collections.min(ageArray);
+                    int minIndex = 0;
+                    minIndex = ageArray.indexOf(ageMin);
+                    System.out.println(personArray.get(minIndex));
+                    break;
+                default:
+                    System.out.println("***Min or Max not chosen, check getMinMaxAge method.***");
+                    break;
+            }
+        } else {
+            System.out.println("***The arraylist of persons is empty, check that csvParse is run***");
         }
-        if (maxOrMin.equalsIgnoreCase("max")) {
-            int ageMax = Collections.max(ageArray);
-            maxMinIndex = ageArray.indexOf(ageMax);
-        } else if (maxOrMin.equalsIgnoreCase("min")) {
-            int ageMin = Collections.min(ageArray);
-            maxMinIndex = ageArray.indexOf(ageMin);
-        }
-        return personArray.get(maxMinIndex);
     }
 
     public static HashMap<String, Integer> getCount(ArrayList<Person> personArray, Attribute countAttribute) {
@@ -156,7 +162,7 @@ public class PersonCalc {
                     }
                     break;
                 default:
-                    System.out.println("error");
+                    System.out.println("attribute not chosen for getCount method.");
                     break;
                 }
             }
@@ -248,17 +254,43 @@ public class PersonCalc {
 
 
         Scanner reader = new Scanner(System.in);
+
         System.out.println("Which attribute would you like to sort by? (name, age, city, state, zipcode, industry, searching)");
         String listValue = reader.nextLine();
+        if(!attributeList.contains(listValue.toUpperCase())) {
+            System.out.println("\n\n***Please enter an attribute to sort by \n\n");
+            getPopulation(personArray);
+            return;
+        }
         Attribute listAttribute = Attribute.valueOf(listValue.toUpperCase());
+
         System.out.println(getCount(personArray, listAttribute));
         System.out.println("Which value would you like to sort by? Choose a specific value from the list above");
         String categoryValue = reader.nextLine();
+        if(categoryValue.length() == 0 || !getCount(personArray, listAttribute).keySet().toString().toUpperCase().contains(categoryValue.toUpperCase())) {
+            System.out.println("\n\n***Please enter a value to sort by\n\n");
+            getPopulation(personArray);
+            return;
+        }
+
         System.out.println("Choose what attributes to list. (name, age, etc... or all)");
         String displayList = reader.nextLine();
+        if(!attributeList.contains(displayList.toUpperCase())) {
+            System.out.println("\n\n***Please enter an attribute to list \n\n");
+            getPopulation(personArray);
+            return;
+        }
         Attribute displayAttribute = Attribute.valueOf(displayList.toUpperCase());
-        reader.close();
 
         transform(filter(personArray, listAttribute, categoryValue), displayAttribute);            //uses transform and filter methods
+
+        System.out.println("\n\nWould you like to search again? (Yes or No?)");
+        String wantRestart = reader.nextLine();
+        if(wantRestart.equalsIgnoreCase("yes")) {
+            getPopulation(personArray);
+        }
+
+        reader.close();
+
     }
 }
