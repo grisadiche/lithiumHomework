@@ -1,7 +1,7 @@
 public class FunctioningCode {
 
     public static void main(String[] args) {
-        
+
         CsvParse.parse();                                  //parses the csv so we can use the personList
 
         System.out.println("The counts for each state are: " +

@@ -232,19 +232,19 @@ public class PersonCalc {
         Scanner reader = new Scanner(System.in);
 
         System.out.println("Which attribute would you like to sort by? (name, age, city, state, zipcode, industry, searching)");
-        String listValue = reader.nextLine();
-        if(!attributeList.contains(listValue.toUpperCase())) {
+        String listKey = reader.nextLine();
+        if(!attributeList.contains(listKey.toUpperCase())) {
             System.out.println("\n\n***Please enter an attribute to sort by \n\n");
             getPopulation(personArray);
             return;
         }
-        Attribute listAttribute = Attribute.valueOf(listValue.toUpperCase());
+        Attribute keyAttribute = Attribute.valueOf(listKey.toUpperCase());
 
-        System.out.println(getCount(personArray, listAttribute));
-        System.out.println("Which value would you like to sort by? Choose a specific value from the list above");
+        System.out.println(getCount(personArray, keyAttribute).keySet());
+        System.out.println("Which key would you like to sort by? Choose a specific key from the list above");
         String categoryValue = reader.nextLine();
-        if(categoryValue.length() == 0 || !getCount(personArray, listAttribute).keySet().toString().toUpperCase().contains(categoryValue.toUpperCase())) {
-            System.out.println("\n\n***Please enter a value to sort by\n\n");
+        if(categoryValue.length() == 0 || !getCount(personArray, keyAttribute).keySet().toString().toUpperCase().contains(categoryValue.toUpperCase())) {
+            System.out.println("\n\n***Please enter a KEY to sort by\n\n");
             getPopulation(personArray);
             return;
         }
@@ -258,7 +258,7 @@ public class PersonCalc {
         }
         Attribute displayAttribute = Attribute.valueOf(displayList.toUpperCase());
 
-        transform(filter(personArray, listAttribute, categoryValue), displayAttribute);            //uses transform and filter methods
+        transform(filter(personArray, keyAttribute, categoryValue), displayAttribute);            //uses transform and filter methods
 
         System.out.println("\n\nWould you like to search again? (Yes or No?)");
         String wantRestart = reader.nextLine();
