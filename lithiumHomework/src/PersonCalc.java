@@ -25,31 +25,6 @@ public class PersonCalc {
             .map(Attribute::name)
             .collect(Collectors.toList());
 
-    public static ArrayList<Person> personList = new ArrayList<>();
-
-    public static void csvParse() {
-
-        String[] csvLineArray = CSVdataset.csvDataset.split("\n");             //separate string by line
-
-        for (int i = 1; i < csvLineArray.length; i++) {                   //loop through each row
-            String[] rowArrays = csvLineArray[i].split(",");       //splits each row at commas
-
-            Person person = new Person();
-
-            person.setName(rowArrays[0]);                                          //names
-            person.setAge(rowArrays[1]);                                           //ages
-            person.setCity(rowArrays[2]);                                          //cities
-            person.setState(rowArrays[3]);                                          //states
-            person.setZipCode(rowArrays[4]);                                       //zips
-            if (rowArrays.length > 5) {
-                person.setIndustry(rowArrays[5]);                                   //industry
-                if (rowArrays.length > 6) {
-                    person.setSearching(rowArrays[6]);                              //searching?
-                }
-            }
-            personList.add(person);                                    //creates new person in my Person arraylist
-        }
-    }
 
     public static String getMinMaxFreq(ArrayList<Person> personArray, Attribute searchString, String minOrMax) {
         String returnValue = new String();
@@ -78,7 +53,7 @@ public class PersonCalc {
         return returnValue;
     }
 
-    public static void getMinOrMaxAge(ArrayList<Person> personArray, String maxOrMin) {
+    public static Person getMinOrMaxAge(ArrayList<Person> personArray, String maxOrMin) {
         if (personArray.size() > 0) {
             ArrayList<Integer> ageArray = new ArrayList<>();
             for (int i = 0; i < personArray.size(); i++) {
@@ -90,20 +65,21 @@ public class PersonCalc {
                     int ageMax = Collections.max(ageArray);
                     int maxIndex = 0;
                     maxIndex = ageArray.indexOf(ageMax);
-                    System.out.println(personArray.get(maxIndex));
-                    break;
+                    return personArray.get(maxIndex);
                 case "MIN":
                     int ageMin = Collections.min(ageArray);
                     int minIndex = 0;
                     minIndex = ageArray.indexOf(ageMin);
-                    System.out.println(personArray.get(minIndex));
-                    break;
+                    return personArray.get(minIndex);
                 default:
                     System.out.println("***Min or Max not chosen, check getMinMaxAge method.***");
-                    break;
+                    Person errorPerson = new Person();
+                    return errorPerson;
             }
         } else {
-            System.out.println("***The arraylist of persons is empty, check that csvParse is run***");
+            System.out.println("***The arraylist of persons is empty, check that CsvParse is run***");
+            Person errorPerson = new Person();
+            return errorPerson;
         }
     }
 
