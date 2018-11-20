@@ -11,7 +11,6 @@ public class CsvParse {
         for (int i = 1; i < csvRows.length; i++) {                   //loop through each row
 
             String[] parsedRow = csvRows[i].split(",");       //splits each row at commas
-
             Person person = new Person();
 
             person.setName(parsedRow[0]);                                          //names
