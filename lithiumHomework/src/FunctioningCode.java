@@ -1,45 +1,39 @@
-import javax.naming.Name;
-
 public class FunctioningCode {
 
-
-
     public static void main(String[] args) {
-
-
-
-        PersonCalc.csvParse();                                  //parses the csv so we can use the personList
+        
+        CsvParse.parse();                                  //parses the csv so we can use the personList
 
         System.out.println("The counts for each state are: " +
-                PersonCalc.getCount(PersonCalc.personList, PersonCalc.Attribute.STATE));
-
-        System.out.println("The most populous state(s): " +
-                PersonCalc.getMinMaxFreq(PersonCalc.personList, PersonCalc.Attribute.STATE, "max"));
-
-        System.out.println("The following people reside in " + PersonCalc.getMinMaxFreq(PersonCalc.personList, PersonCalc.Attribute.STATE, "max") + ": ");
-        PersonCalc.transform(PersonCalc.filter(PersonCalc.personList, PersonCalc.Attribute.STATE, PersonCalc.getMinMaxFreq(PersonCalc.personList, PersonCalc.Attribute.STATE, "max")), PersonCalc.Attribute.NAME);
+                PersonCalc.getCount(CsvParse.personList, PersonCalc.Attribute.STATE));
+        String maxState = PersonCalc.getMinMaxFreq(CsvParse.personList, PersonCalc.Attribute.STATE, "max");
+        System.out.println("The most populous state(s): " + maxState);
+        System.out.println("The following people reside in " + maxState);
+        PersonCalc.transform(PersonCalc.filter(CsvParse.personList, PersonCalc.Attribute.STATE, maxState), PersonCalc.Attribute.NAME);
                     //filters the arraylist to only those people in the max state, then transforms that list into just names.
 
         System.out.println("Zip codes by frequency: " +
-                PersonCalc.getCount(PersonCalc.personList, PersonCalc.Attribute.ZIPCODE));
+                PersonCalc.getCount(CsvParse.personList, PersonCalc.Attribute.ZIPCODE));
 
         System.out.println("The following cities are represented: " +
-                PersonCalc.getCount(PersonCalc.personList, PersonCalc.Attribute.CITY).keySet());                //creates count hashmap, displays only keys
+                PersonCalc.getCount(CsvParse.personList, PersonCalc.Attribute.CITY).keySet());                //creates count hashmap, displays only keys
 
-        System.out.println("The oldest person is: " + PersonCalc.getMinOrMaxAge(PersonCalc.personList, "max"));
+        Person youngestPerson = PersonCalc.getMinOrMaxAge(CsvParse.personList, "max");
+        System.out.println("The oldest person is: " + youngestPerson);
 
-        System.out.println("The youngest person is: " + PersonCalc.getMinOrMaxAge(PersonCalc.personList, "min"));
+        Person oldestPerson = PersonCalc.getMinOrMaxAge(CsvParse.personList, "min");
+        System.out.println("The youngest person is: " + oldestPerson);
 
         System.out.println("The number of people in each industry: " +
-                PersonCalc.getCount(PersonCalc.personList, PersonCalc.Attribute.INDUSTRY));
+                PersonCalc.getCount(CsvParse.personList, PersonCalc.Attribute.INDUSTRY));
 
         System.out.println("The number of people in each state: " +
-                PersonCalc.getCount(PersonCalc.personList, PersonCalc.Attribute.STATE));
+                PersonCalc.getCount(CsvParse.personList, PersonCalc.Attribute.STATE));
 
         System.out.println("The state with the least people represented is: " +
-                PersonCalc.getMinMaxFreq(PersonCalc.personList, PersonCalc.Attribute.STATE, "min"));
+                PersonCalc.getMinMaxFreq(CsvParse.personList, PersonCalc.Attribute.STATE, "min"));
 
-        PersonCalc.getPopulation(PersonCalc.personList);
+        PersonCalc.getPopulation(CsvParse.personList);
 
     }
 }
